@@ -1,0 +1,26 @@
+
+name: Matrix Example
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  run_some_js:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: 
+        os: [ubuntu-18.04, ubunutu-20.04]
+        node: [10, 12, 14]
+    steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Get node version
+        run: node --version
+      - name: Execute some js
+        run: node -e 'console.log("Hello Catdog")'
+      - name: Execute some js that doesnt work everywhere
+        run: node --report-uncaught-exception -e 'console.log("Hello Catdog")'
